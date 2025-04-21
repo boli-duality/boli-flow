@@ -1,0 +1,8 @@
+intro:
+  desc: 一个前端开发工具
+not-found: 未找到页面
+file-type:
+  directory: 文件夹
+  file: '{name} 文件'
+  symlink: 符号链接
+  other: 其他

@@ -1,0 +1,8 @@
+intro:
+  desc: A frontend development tool
+not-found: Not found
+file-type:
+  directory: Directory
+  file: '{name} File'
+  symlink: Symlink
+  other: Other
