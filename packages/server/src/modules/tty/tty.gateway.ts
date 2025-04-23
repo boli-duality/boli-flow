@@ -31,11 +31,11 @@ export class TtyGateway {
       // process.stdout.write(data);
     })
 
-    term.onExit(e => {
-      console.log('退出终端', client.id, term.pid, e)
-    })
+    // term.onExit(e => {
+    //   console.log('退出终端', client.id, term.pid, e)
+    // })
+    // console.log('连接了', client.id, term.pid)
     this.terms.set(client.id, term)
-    console.log('连接了', client.id, term.pid)
   }
 
   handleDisconnect(client: Socket) {

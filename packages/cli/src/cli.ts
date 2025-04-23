@@ -3,8 +3,8 @@ import Readline from 'node:readline/promises'
 
 import { cac } from 'cac'
 import { build } from 'esbuild'
-import { execa, type Options as ExecaOptions } from 'execa'
-import { loadConfig, watchConfig } from 'c12'
+import { execa, ResultPromise } from 'execa'
+import { loadConfig } from 'c12'
 import { existsSync, rmSync } from 'node:fs'
 import { type ChildProcess } from 'node:child_process'
 
@@ -14,21 +14,19 @@ console.log('config', config)
 const cli = cac('flow')
 const rl = Readline.createInterface({ input: process.stdin, output: process.stdout })
 
-const renderer = resolve(process.cwd(), 'packages/renderer')
-const server = resolve(process.cwd(), 'packages/server')
-
-const children: any[] = []
-function exeLong(file: string | URL, args?: readonly string[], options?: ExecaOptions) {
-  const child = execa(file, args, options)
-  children.push(child)
-  return child
-}
-
-function reopenElectron(electron: ChildProcess) {
-  electron.on('exit', () => {
-    rl.question('Press enter key to open the app...').then(() => {
-      reopenElectron(exeLong('electron', ['build/electron/main.js'], { stdout: 'inherit' }))
-    })
+let app: ChildProcess | undefined
+function openApp() {
+  if (app) return
+  app = execa('electron build/electron/main.js')
+  app.stdout?.on('data', data => {
+    process.stdout.write(data)
+  })
+  app.stderr?.on('data', data => {
+    process.stderr.write(data)
+  })
+  app.on('close', () => {
+    app = undefined
+    rl.question('Press enter key to open the app...').then(openApp)
   })
 }
 
@@ -48,38 +46,33 @@ cli
         '.png': 'copy',
       },
     }).then(async () => {
-      const vite = exeLong('npx', ['vite', 'dev'], {
-        cwd: renderer,
-        stderr: 'inherit',
-      })
-      let electron: ChildProcess
-      vite.stdout?.on('data', (data) => {
-        process.stdout.write(data)
-        if(electron) return
-        electron = exeLong('electron', ['build/electron/main.js'], {
-          stdout: 'inherit',
-          stderr: 'inherit',
+      const execaArr = config.electron.dev.execa
+      const childArr: ResultPromise[] = execaArr.map(({ command, options, on = {} }: any) => {
+        const child = execa(command, options)
+        child.stdout?.on('data', data => {
+          process.stdout.write(data)
+          on.stdout?.({ openApp })
         })
-        reopenElectron(electron)
+        child.stderr?.on('data', data => {
+          process.stderr.write(data)
+          on.stderr?.({ openApp })
+        })
+        child.on('exit', () => {
+          console.log('exit', command)
+
+          on.exit?.({ openApp })
+        })
+        child.on('close', () => {
+          console.log('close', command)
+          on.close?.({ openApp })
+        })
+        return child
       })
-      const nest = exeLong('npx', ['nest', 'start', '--watch'], {
-        cwd: server,
-        stdio: ['ignore', 'inherit', 'inherit'],
+      childArr.forEach(child => {
+        if (child.stdin) process.stdin.pipe(child.stdin)
       })
     })
   })
 
 cli.help()
 cli.parse()
-
-const handleTerminationSignal = (signal: string) => {
-  process.on(signal, () => {
-    children.forEach((child) => {
-      if (!child.killed) child.kill(signal)
-    })
-  })
-}
-
-// handleTerminationSignal('SIGINT')
-// handleTerminationSignal('SIGTERM')
-// handleTerminationSignal('exit')

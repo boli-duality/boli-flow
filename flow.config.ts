@@ -1,7 +1,21 @@
 export default {
   electron: {
     dev: {
-      scripts: ['cd packages/renderer && pnpm run dev', 'cd packages/server && pnpm run start:dev'],
+      execa: [
+        {
+          command: 'pnpm dev',
+          options: { cwd: 'packages/renderer' },
+          // on: {
+          //   stdout: ({ openApp }) => {
+          //     openApp()
+          //   },
+          // },
+        },
+        // {
+        //   command: 'pnpm start:dev',
+        //   options: { cwd: 'packages/server', stdio: ['ignore', 'inherit', 'inherit'] },
+        // },
+      ],
     },
   },
 }
