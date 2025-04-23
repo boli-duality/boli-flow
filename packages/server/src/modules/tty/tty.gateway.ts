@@ -4,9 +4,9 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-} from '@nestjs/websockets';
-import { IPty, spawn } from 'node-pty';
-import { Server, Socket } from 'socket.io';
+} from '@nestjs/websockets'
+import { IPty, spawn } from 'node-pty'
+import { Server, Socket } from 'socket.io'
 
 @WebSocketGateway({
   cors: {
@@ -16,51 +16,51 @@ import { Server, Socket } from 'socket.io';
 })
 export class TtyGateway {
   @WebSocketServer()
-  server: Server;
-  terms = new Map<string, IPty>();
+  server: Server
+  terms = new Map<string, IPty>()
 
   handleConnection(client: Socket) {
-    if (this.terms.has(client.id)) return;
+    if (this.terms.has(client.id)) return
     const term = spawn('pwsh.exe', [], {
       name: 'xterm-color',
       cwd: process.env.HOME,
       env: process.env,
-    });
-    term.onData((data) => {
-      client.emit('output', data);
+    })
+    term.onData(data => {
+      client.emit('output', data)
       // process.stdout.write(data);
-    });
+    })
 
-    term.onExit((e) => {
-      console.log('退出终端', client.id, term.pid, e);
-    });
-    this.terms.set(client.id, term);
-    console.log('连接了', client.id, term.pid);
+    term.onExit(e => {
+      console.log('退出终端', client.id, term.pid, e)
+    })
+    this.terms.set(client.id, term)
+    console.log('连接了', client.id, term.pid)
   }
 
   handleDisconnect(client: Socket) {
-    const term = this.terms.get(client.id);
-    if (!term) return;
+    const term = this.terms.get(client.id)
+    if (!term) return
 
     try {
-      process.kill(term.pid);
-      this.terms.delete(client.id);
+      process.kill(term.pid)
+      this.terms.delete(client.id)
     } catch (error) {
-      console.log(`kill ${term.pid} error: `, error);
+      console.log(`kill ${term.pid} error: `, error)
     }
   }
 
   @SubscribeMessage('input')
   input(@ConnectedSocket() client: Socket, @MessageBody() body: string) {
-    const term = this.terms.get(client.id);
-    if (!term) return;
-    term.write(body);
+    const term = this.terms.get(client.id)
+    if (!term) return
+    term.write(body)
   }
 
   @SubscribeMessage('resize')
   resize(@ConnectedSocket() client: Socket, @MessageBody() body: { cols: number; rows: number }) {
-    const term = this.terms.get(client.id);
-    if (!term) return;
-    term.resize(body.cols, body.rows);
+    const term = this.terms.get(client.id)
+    if (!term) return
+    term.resize(body.cols, body.rows)
   }
 }

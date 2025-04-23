@@ -5,18 +5,32 @@
   "type": "module",
   "scripts": {
     "start": "electron build/electron/main.js",
-    "flow": "flow"
+    "flow": "flow",
+    "lint": "eslint src --fix",
+    "format": "prettier --write src/",
+    "up": "npx taze major -I",
+    "postinstall": "npx simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "@app/cli": "workspace:*",
-    "@tsconfig/node22": "^22.0.1",
-    "@types/node": "^22.14.1",
-    "electron": "^35.2.0",
-    "execa": "^9.5.2",
-    "typescript": "^5.8.3"
+    "@vue/eslint-config-prettier": "catalog:",
+    "@vue/eslint-config-typescript": "catalog:",
+    "electron": "catalog:",
+    "eslint": "catalog:",
+    "lint-staged": "catalog:",
+    "prettier": "catalog:",
+    "simple-git-hooks": "catalog:",
+    "typescript": "catalog:",
+    "vue-i18n": "catalog:"
   }
 }

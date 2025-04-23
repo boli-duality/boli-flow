@@ -1,8 +1,6 @@
 "use strict";
 import { app, BrowserWindow } from "electron";
 import { resolve } from "path";
-console.log("icon", import.meta.resolve("./public/favicon.jpg").toString());
-console.log("icon", resolve(import.meta.dirname, "public/favicon.jpg"));
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1200,
