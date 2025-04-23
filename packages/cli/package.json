@@ -2,18 +2,26 @@
   "name": "@app/cli",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "bin": {
-    "boli": "cli.js"
+    "flow": "dist/cli.mjs"
   },
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "unbuild",
+    "dev": "unbuild --stub"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
+  "dependencies": {
+    "c12": "^3.0.3",
+    "cac": "^6.7.14",
+    "esbuild": "^0.25.3"
+  },
   "devDependencies": {
-    "typescript": "catalog:"
+    "@tsconfig/node22": "^22.0.1",
+    "@types/node": "^22.14.1",
+    "unbuild": "^3.5.0"
   }
 }

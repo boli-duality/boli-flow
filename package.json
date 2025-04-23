@@ -2,8 +2,10 @@
   "name": "boli-flow",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
-    "start": "tsc && electron out/electron/main.js"
+    "start": "electron build/electron/main.js",
+    "flow": "flow"
   },
   "keywords": [],
   "author": "",

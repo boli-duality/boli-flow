@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'boli tty',
+  title: 'boli flow',
 })
 </script>
 

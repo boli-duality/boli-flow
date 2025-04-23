@@ -1,14 +1,20 @@
 // Modules to control application life and create native browser window
 import { app, BrowserWindow } from 'electron'
-// import path from 'node:path'
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
+// import { join } from 'node:path'
 
-function createWindow () {
+console.log('icon', import.meta.resolve('./public/favicon.jpg').toString())
+console.log('icon', resolve(import.meta.dirname, 'public/favicon.jpg'))
+
+function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    icon: resolve(import.meta.dirname, 'public/favicon.png'),
     // webPreferences: {
-    //   preload: path.join(__dirname, 'preload.js')
+    //   preload: join(__dirname, 'preload.js')
     // }
   })
 
