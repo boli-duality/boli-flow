@@ -2,12 +2,19 @@
   "name": "boli-flow",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "tsc && electron ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.8.1"
+  "packageManager": "pnpm@10.8.1",
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.1",
+    "@types/node": "^22.14.1",
+    "electron": "^35.2.0",
+    "typescript": "^5.8.3",
+    "@app/cli": "workspace:*"
+  }
 }

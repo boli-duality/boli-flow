@@ -1,8 +1,18 @@
 packages:
   - packages/*
 
-onlyBuiltDependencies:
+catalog:
+  typescript: ^5.8.3
+
+ignoredBuiltDependencies:
+  - '@bolinjs/vite-plugin-log-label'
   - '@nestjs/core'
   - '@swc/core'
-  - electron
+  - core-js
+  - esbuild
   - node-pty
+  - simple-git-hooks
+  - vue-demi
+
+onlyBuiltDependencies:
+  - electron
