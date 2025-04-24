@@ -49,10 +49,9 @@ cli
       },
     })
 
-    const execaArr = config.electron.dev.execa
+    const execaArr = config.electron?.dev?.execa
+    if (!execaArr) return
     execaArr.forEach(({ command, options, on = {} }: any) => {
-      console.log(command, options)
-
       const child = execa(command, options)
       child.stdout?.on('data', data => {
         process.stdout.write(data)
