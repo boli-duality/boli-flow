@@ -22,7 +22,7 @@ function openApp() {
     const { restart } = await inquirer.prompt({
       type: 'list',
       name: 'restart',
-      message: '是否重新打开窗口',
+      message: '操作',
       choices: [
         { name: '重新打开窗口', value: true },
         { name: '关闭进程', value: false },
@@ -76,5 +76,5 @@ cli
 cli.help()
 cli.parse()
 
-const exitSignals = ['SIGINT', 'SIGTERM', 'SIGQUIT']
+const exitSignals = ['SIGINT', 'SIGTERM', 'SIGQUIT', 'SIGKILL', 'SIGHUP']
 exitSignals.forEach(signal => process.on(signal, () => treeKill(process.pid)))
