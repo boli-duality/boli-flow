@@ -34,7 +34,7 @@ const model = useTable({
     },
     {
       label: '名称',
-      width: 520,
+      width: 270,
       showOverflowTooltip: true,
       slot: ({ row }) => (
         <div class='flex items-center'>

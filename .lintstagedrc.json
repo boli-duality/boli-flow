@@ -1,3 +1,6 @@
 {
-  "src/**/*": ["eslint --fix", "prettier --write"]
+  "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,vue,css,scss,sass,less,styl,yml,yaml,html,json}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
 }
