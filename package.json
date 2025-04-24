@@ -26,6 +26,7 @@
     "@vue/eslint-config-prettier": "catalog:",
     "@vue/eslint-config-typescript": "catalog:",
     "electron": "catalog:",
+    "electron-builder": "^26.0.12",
     "eslint": "catalog:",
     "lint-staged": "catalog:",
     "prettier": "catalog:",
