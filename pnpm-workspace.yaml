@@ -18,9 +18,10 @@ ignoredBuiltDependencies:
   - '@swc/core'
   - core-js
   - esbuild
+  - node-pty
   - simple-git-hooks
   - vue-demi
 
 onlyBuiltDependencies:
   - electron
-  - node-pty
+  - electron-winstaller

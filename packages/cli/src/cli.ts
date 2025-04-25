@@ -10,13 +10,25 @@ import treeKill from 'tree-kill'
 import inquirer from 'inquirer'
 
 const { config } = await loadConfig({ name: 'flow' })
+const outdir = resolve(process.cwd(), 'build')
+const loader = {
+  '.jpg': 'copy',
+  '.png': 'copy',
+  '.svg': 'copy',
+  '.ttf': 'copy',
+  '.woff': 'copy',
+  '.woff2': 'copy',
+  '.eot': 'copy',
+  '.html': 'copy',
+  '.ico': 'copy',
+} as const
 
 const cli = cac('flow')
 
 let app: ChildProcess | undefined
 function openApp() {
   if (app) return
-  app = execa('electron dist/main.js', { stdiout: 'inherit', stderr: 'inherit' })
+  app = execa('electron build/main.js', { stdiout: 'inherit', stderr: 'inherit' })
   app.on('close', async () => {
     app = undefined
     const { restart } = await inquirer.prompt({
@@ -37,16 +49,12 @@ cli
   .command('[root]')
   .alias('dev')
   .action(async () => {
-    const outdir = resolve(process.cwd(), 'dist')
     if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
     await build({
       entryPoints: ['src/**/*'],
       outdir,
       packages: 'bundle',
-      loader: {
-        '.jpg': 'copy',
-        '.png': 'copy',
-      },
+      loader,
     })
 
     const execaArr = config.electron?.dev?.execa
@@ -73,12 +81,20 @@ cli
   })
 
 cli.command('build').action(async () => {
-  execa('pnpm build', { cwd: 'packages/renderer', stdiout: 'inherit', stderr: 'inherit' }).then(
-    () => {}
-  )
-  execa('pnpm build', { cwd: 'packages/server', stdiout: 'inherit', stderr: 'inherit' }).then(
-    () => {}
-  )
+  // execa('pnpm build', { cwd: 'packages/renderer', stdiout: 'inherit', stderr: 'inherit' }).then(
+  //   () => {}
+  // )
+  // execa('pnpm build', { cwd: 'packages/server', stdiout: 'inherit', stderr: 'inherit' }).then(
+  //   () => {}
+  // )
+  if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
+  await build({
+    entryPoints: ['src/**/*'],
+    outdir,
+    packages: 'bundle',
+    loader,
+  })
+  openApp()
 })
 
 cli.help()

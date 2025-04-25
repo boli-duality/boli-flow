@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
+  "main": "build/main.js",
   "scripts": {
     "start": "electron build/electron/main.js",
+    "build": "electron-builder -c electron-builder.config.ts",
     "flow": "flow",
     "lint": "eslint src --fix",
     "format": "prettier --write src/",
     "up": "npx taze major -I",
-    "postinstall": "npx simple-git-hooks"
+    "postinstall": "npx simple-git-hooks && electron-builder install-app-deps"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
