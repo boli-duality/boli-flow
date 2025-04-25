@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "build/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron build/electron/main.js",
     "build": "electron-builder -c electron-builder.config.ts",
