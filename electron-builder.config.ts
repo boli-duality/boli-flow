@@ -4,13 +4,13 @@ const config: Configuration = {
   productName: 'BoliFlow', //项目名 这也是生成的exe文件的前缀名
   // appId: 'com.leon.xxxxx', //包名
   // copyright: 'xxxx', //版权  信息
-  asar: false,
-  directories: {
-    // 输出文件夹
-    output: 'dist',
-    buildResources: 'resources',
-    // app: 'src',
-  },
+  asar: true,
+  // asarUnpack: ['**/node_modules/node-pty/**'],
+  // directories: {
+  //   // 输出文件夹
+  //   output: 'dist',
+  //   buildResources: 'build',
+  // },
   nsis: {
     oneClick: false, // 是否一键安装
     allowElevation: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
@@ -32,11 +32,10 @@ const config: Configuration = {
   files: [
     {
       from: 'build',
-      to: '', // 平铺到 resources/app 目录
+      to: '.', // 平铺到 resources/app 目录
       filter: ['**/*'], // 包含所有文件
     },
     'package.json',
-    // 'build/**/*',
   ],
   // dmg: {
   //   contents: [
@@ -64,6 +63,7 @@ const config: Configuration = {
         arch: ['x64'],
       },
     ],
+    // requestedExecutionLevel: 'requireAdministrator', // 需要管理员权限
   },
   // linux: {
   //   icon: 'build/icons',

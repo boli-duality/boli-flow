@@ -20,6 +20,7 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/no-explicit-any': 'off',
       'prefer-template': 'error',
       'no-unreachable': 'warn',
+      '@typescript-eslint/no-unused-expressions': ['error', { allowTaggedTemplates: true }],
     },
   }
 )

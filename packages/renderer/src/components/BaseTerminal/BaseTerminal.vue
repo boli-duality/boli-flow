@@ -22,7 +22,7 @@ const keyMap = new Map([
 onMounted(() => {
   if (!boliTerminal.value) return
 
-  const socket = io('localhost:3000', { transports: ['websocket'] })
+  const socket = io('http://localhost:3000', { transports: ['websocket'] })
   client = socket
 
   const term = new Terminal()
@@ -60,5 +60,9 @@ onUnmounted(() => client?.disconnect())
 </script>
 
 <template>
-  <div ref="base-terminal" v-hide="!show" class="base-terminal fixed bottom-0 left-0 right-0 z-20" />
+  <div
+    ref="base-terminal"
+    v-hide="!show"
+    class="base-terminal fixed bottom-0 left-0 right-0 z-20"
+  />
 </template>

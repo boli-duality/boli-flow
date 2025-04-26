@@ -8,6 +8,7 @@ import { execa } from 'execa'
 import { loadConfig } from 'c12'
 import treeKill from 'tree-kill'
 import inquirer from 'inquirer'
+import { copy, copyFile } from 'fs-extra'
 
 const { config } = await loadConfig({ name: 'flow' })
 const outdir = resolve(process.cwd(), 'build')
@@ -22,26 +23,25 @@ const loader = {
   '.html': 'copy',
   '.ico': 'copy',
 } as const
+const baseExecaOptions = {
+  stdout: ['pipe', 'inherit'] as const,
+  stderr: ['pipe', 'inherit'] as const,
+}
 
 const cli = cac('flow')
 
 let app: ChildProcess | undefined
-function openApp() {
+function openApp(mode = 'development') {
   if (app) return
-  app = execa('electron build/main.js', { stdiout: 'inherit', stderr: 'inherit' })
+  app = execa({ ...baseExecaOptions, env: { mode } })`electron build/main.js`
   app.on('close', async () => {
     app = undefined
-    const { restart } = await inquirer.prompt({
-      type: 'list',
+    await inquirer.prompt({
+      type: 'input',
       name: 'restart',
-      message: '操作',
-      choices: [
-        { name: '重新打开窗口', value: true },
-        { name: '关闭进程', value: false },
-      ],
+      message: '按回车键打开窗口...',
     })
-    if (restart) openApp()
-    else treeKill(process.pid)
+    openApp(mode)
   })
 }
 
@@ -60,22 +60,13 @@ cli
     const execaArr = config.electron?.dev?.execa
     if (!execaArr) return
     execaArr.forEach(({ command, options, on = {} }: any) => {
-      const child = execa(command, options)
+      const child = execa({ ...baseExecaOptions, ...options })`${command}`
+      if (!on) return
       child.stdout?.on('data', data => {
-        process.stdout.write(data)
         on.stdout?.({ openApp, data: data.toString() })
       })
       child.stderr?.on('data', data => {
-        process.stderr.write(data)
         on.stderr?.({ openApp, data: data.toString() })
-      })
-      child.on('exit', () => {
-        console.log('exit', command)
-        on.exit?.({ openApp })
-      })
-      child.on('close', () => {
-        console.log('close', command)
-        on.close?.({ openApp })
       })
     })
   })
@@ -94,11 +85,31 @@ cli.command('build').action(async () => {
     packages: 'bundle',
     loader,
   })
-  openApp()
+  await Promise.all([
+    execa('pnpm build', { cwd: 'packages/renderer', ...baseExecaOptions }).then(() =>
+      copy(resolve(process.cwd(), 'packages/renderer/dist'), `${outdir}/renderer`, {
+        overwrite: true,
+      })
+    ),
+    execa('pnpm build', { cwd: 'packages/server', ...baseExecaOptions })
+      .then(() =>
+        copy(resolve(process.cwd(), 'packages/server/dist'), `${outdir}/server`, {
+          overwrite: true,
+        })
+      )
+      .then(() =>
+        copyFile(
+          resolve(process.cwd(), 'packages/server/package.json'),
+          `${outdir}/server/package.json`
+        )
+      ),
+  ])
+
+  openApp('production')
 })
 
 cli.help()
 cli.parse()
 
 const exitSignals = ['SIGINT', 'SIGTERM', 'SIGQUIT', 'SIGKILL', 'SIGHUP']
-exitSignals.forEach(signal => process.on(signal, () => treeKill(process.pid)))
+exitSignals.forEach(signal => process.on(signal, () => treeKill(process.pid, signal)))

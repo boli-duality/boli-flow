@@ -1,7 +1,18 @@
 // Modules to control application life and create native browser window
+import { spawn } from 'child_process'
 import { app, BrowserWindow } from 'electron'
 import { resolve } from 'path'
 // import { join } from 'node:path'
+
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
+
+const PROD = app.isPackaged || process.env.mode == 'production'
+
+if (PROD) {
+  spawn('node', ['server/main'], {
+    cwd: resolve(import.meta.dirname),
+  })
+}
 
 function createWindow() {
   // Create the browser window.
@@ -16,8 +27,8 @@ function createWindow() {
 
   // and load the index.html of the app.
   // mainWindow.loadFile('index.html')
-  // mainWindow.loadURL('http://localhost:5173')
-  mainWindow.loadFile('./dist/index.html')
+  if (PROD) mainWindow.loadFile('renderer/index.html')
+  else mainWindow.loadURL('http://localhost:5173')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

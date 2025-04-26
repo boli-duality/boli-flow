@@ -12,7 +12,7 @@
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
     "up": "npx taze major -I",
-    "postinstall": "npx simple-git-hooks"
+    "postinstall": "simple-git-hooks"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

@@ -5,13 +5,14 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "start": "electron build/electron/main.js",
-    "build": "electron-builder -c electron-builder.config.ts",
-    "flow": "flow",
+    "start": "flow",
+    "build": "flow build",
+    "electron:start": "electron build/main.js",
+    "electron:build": "electron-builder -c electron-builder.config.ts",
     "lint": "eslint src --fix",
     "format": "prettier --write src/",
     "up": "npx taze major -I",
-    "postinstall": "npx simple-git-hooks && electron-builder install-app-deps"
+    "postinstall": "simple-git-hooks && electron-builder install-app-deps"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
@@ -22,6 +23,23 @@
   "packageManager": "pnpm@10.8.1",
   "engines": {
     "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "@nestjs/common": "catalog:",
+    "@nestjs/core": "catalog:",
+    "@nestjs/mapped-types": "catalog:",
+    "@nestjs/platform-express": "catalog:",
+    "@nestjs/platform-socket.io": "catalog:",
+    "@nestjs/websockets": "catalog:",
+    "file-type": "catalog:",
+    "fs-extra": "catalog:",
+    "iconv-lite": "catalog:",
+    "mime": "catalog:",
+    "node-pty": "catalog:",
+    "reflect-metadata": "catalog:",
+    "rxjs": "catalog:",
+    "slash": "catalog:",
+    "socket.io": "catalog:"
   },
   "devDependencies": {
     "@app/cli": "workspace:*",
