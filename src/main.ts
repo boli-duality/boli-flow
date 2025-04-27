@@ -7,7 +7,9 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 
 const PROD = app.isPackaged || process.env.mode == 'production'
 
-if (PROD) import('./server/main.js') // 启动后端服务器
+// 启动后端服务器
+if (PROD) import('./server/main.js')
+else import('../packages/server/dist/main.js')
 
 function createWindow() {
   // Create the browser window.

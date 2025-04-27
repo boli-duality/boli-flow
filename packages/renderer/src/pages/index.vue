@@ -8,7 +8,7 @@ const { t } = useI18n()
 <template>
   <div class="h-100vh">
     <FENavBar />
-    <section class="flex h-[calc(100vh-48px)]">
+    <section class="h-[calc(100vh-48px)] flex">
       <aside class="w-210">
         {{ t('intro.desc') }}
       </aside>

@@ -4,17 +4,17 @@ export default {
       execa: [
         {
           command: 'pnpm dev',
-          options: { cwd: 'packages/renderer', verbose: 'full' },
+          options: { cwd: 'packages/renderer' },
           on: {
             stdout: ({ openApp, data }) => {
               if (data.includes('ready')) openApp()
             },
           },
         },
-        {
-          command: 'pnpm start:dev',
-          options: { cwd: 'packages/server', verbose: 'full' },
-        },
+        // {
+        //   command: 'pnpm start:dev',
+        //   options: { cwd: 'packages/server' },
+        // },
       ],
     },
   },

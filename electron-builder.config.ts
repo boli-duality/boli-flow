@@ -20,7 +20,7 @@ const config: Configuration = {
     createDesktopShortcut: true, // 创建桌面图标
     createStartMenuShortcut: true, // 创建开始菜单图标
     shortcutName: 'BoliFlow', // 图标名称
-    // include: 'build/script/installer.nsh', // 包含的自定义nsis脚本
+    include: 'resources/installer.nsh', // 包含的自定义nsis脚本
   },
   // publish: [
   //   {

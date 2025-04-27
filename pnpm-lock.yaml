@@ -6,12 +6,51 @@ settings:
 
 catalogs:
   default:
-    '@types/fs-extra':
-      specifier: ^11.0.4
-      version: 11.0.4
+    '@nestjs/common':
+      specifier: ^11.0.1
+      version: 11.0.20
+    '@nestjs/core':
+      specifier: ^11.0.1
+      version: 11.0.20
+    '@nestjs/mapped-types':
+      specifier: '*'
+      version: 2.1.0
+    '@nestjs/platform-express':
+      specifier: ^11.0.1
+      version: 11.0.20
+    '@nestjs/platform-socket.io':
+      specifier: ^11.0.11
+      version: 11.0.20
+    '@nestjs/websockets':
+      specifier: ^11.0.11
+      version: 11.0.20
+    file-type:
+      specifier: ^20.4.1
+      version: 20.4.1
     fs-extra:
       specifier: ^11.3.0
       version: 11.3.0
+    iconv-lite:
+      specifier: ^0.6.3
+      version: 0.6.3
+    mime:
+      specifier: ^4.0.7
+      version: 4.0.7
+    node-pty:
+      specifier: 1.1.0-beta34
+      version: 1.1.0-beta34
+    reflect-metadata:
+      specifier: ^0.2.2
+      version: 0.2.2
+    rxjs:
+      specifier: ^7.8.1
+      version: 7.8.2
+    slash:
+      specifier: ^5.1.0
+      version: 5.1.0
+    socket.io:
+      specifier: ^4.8.1
+      version: 4.8.1
 
 importers:
   .:

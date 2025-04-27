@@ -7,6 +7,7 @@ import {
 } from '@nestjs/websockets'
 import { IPty, spawn } from 'node-pty'
 import { Server, Socket } from 'socket.io'
+import { app } from 'electron'
 
 @WebSocketGateway({
   cors: {
@@ -23,7 +24,7 @@ export class TtyGateway {
     if (this.terms.has(client.id)) return
     const term = spawn('pwsh.exe', [], {
       name: 'xterm-color',
-      cwd: process.env.HOME,
+      cwd: app.getPath('home'),
       env: process.env,
     })
     term.onData(data => {
