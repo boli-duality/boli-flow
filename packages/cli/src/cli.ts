@@ -103,6 +103,7 @@ cli.command('build').action(async () => {
           `${outdir}/server/package.json`
         )
       ),
+    copyFile(resolve(process.cwd(), 'package.json'), `${outdir}/package.json`),
   ])
 
   openApp('production')

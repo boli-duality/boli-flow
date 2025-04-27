@@ -1,5 +1,4 @@
 // Modules to control application life and create native browser window
-import { spawn } from 'child_process'
 import { app, BrowserWindow } from 'electron'
 import { resolve } from 'path'
 // import { join } from 'node:path'
@@ -8,18 +7,14 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 
 const PROD = app.isPackaged || process.env.mode == 'production'
 
-if (PROD) {
-  spawn('node', ['server/main'], {
-    cwd: resolve(import.meta.dirname),
-  })
-}
+if (PROD) import('./server/main.js') // 启动后端服务器
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
-    icon: resolve(import.meta.dirname, 'public/favicon.png'),
+    icon: resolve(import.meta.dirname, 'public/favicon.ico'),
     // webPreferences: {
     //   preload: join(__dirname, 'preload.js')
     // }

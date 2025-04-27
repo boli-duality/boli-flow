@@ -5,7 +5,6 @@ const config: Configuration = {
   // appId: 'com.leon.xxxxx', //包名
   // copyright: 'xxxx', //版权  信息
   asar: true,
-  // asarUnpack: ['**/node_modules/node-pty/**'],
   // directories: {
   //   // 输出文件夹
   //   output: 'dist',
@@ -15,9 +14,9 @@ const config: Configuration = {
     oneClick: false, // 是否一键安装
     allowElevation: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
     allowToChangeInstallationDirectory: true, // 允许修改安装目录
-    // installerIcon: './build/public/favicon.ico', // 安装图标
-    // uninstallerIcon: './build/public/favicon.ico', //卸载图标
-    // installerHeaderIcon: './build/public/favicon.ico', // 安装时头部图标
+    installerIcon: 'build/public/favicon.ico', // 安装图标
+    uninstallerIcon: 'build/public/favicon.ico', //卸载图标
+    installerHeaderIcon: 'build/public/favicon.ico', // 安装时头部图标
     createDesktopShortcut: true, // 创建桌面图标
     createStartMenuShortcut: true, // 创建开始菜单图标
     shortcutName: 'BoliFlow', // 图标名称
@@ -33,9 +32,7 @@ const config: Configuration = {
     {
       from: 'build',
       to: '.', // 平铺到 resources/app 目录
-      filter: ['**/*'], // 包含所有文件
     },
-    'package.json',
   ],
   // dmg: {
   //   contents: [
@@ -56,7 +53,7 @@ const config: Configuration = {
   //   icon: 'build/icons/icon.icns',
   // },
   win: {
-    // icon: './dist/public/favicon.ico',
+    icon: 'build/public/favicon.ico',
     target: [
       {
         target: 'nsis',
