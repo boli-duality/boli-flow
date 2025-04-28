@@ -7,7 +7,7 @@ import {
 } from '@nestjs/websockets'
 import { IPty, spawn } from 'node-pty'
 import { Server, Socket } from 'socket.io'
-import { app } from 'electron'
+import { homedir } from 'node:os'
 
 @WebSocketGateway({
   cors: {
@@ -22,9 +22,9 @@ export class TtyGateway {
 
   handleConnection(client: Socket) {
     if (this.terms.has(client.id)) return
-    const term = spawn('pwsh.exe', [], {
+    const term = spawn('powershell.exe', [], {
       name: 'xterm-color',
-      cwd: app.getPath('home'),
+      cwd: homedir(),
       env: process.env,
     })
     term.onData(data => {
@@ -36,6 +36,7 @@ export class TtyGateway {
     //   console.log('退出终端', client.id, term.pid, e)
     // })
     // console.log('连接了', client.id, term.pid)
+
     this.terms.set(client.id, term)
   }
 

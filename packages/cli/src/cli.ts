@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { existsSync, mkdirSync, rmSync } from 'node:fs'
+import { existsSync, rmSync } from 'node:fs'
 import { type ChildProcess } from 'node:child_process'
 
 import { cac } from 'cac'
@@ -56,11 +56,11 @@ cli
       packages: 'bundle',
       loader,
     })
-    mkdirSync(`${outdir}/server`)
-    await copyFile(
-      resolve(process.cwd(), 'packages/server/package.json'),
-      `${outdir}/server/package.json`
-    )
+    // mkdirSync(`${outdir}/server`)
+    // await copyFile(
+    //   resolve(process.cwd(), 'packages/server/package.json'),
+    //   `${outdir}/server/package.json`
+    // )
 
     const execaArr = config.electron?.dev?.execa
     if (!execaArr) return
