@@ -1,11 +1,15 @@
+// import { createRequire } from 'node:module'
 import { Injectable, StreamableFile } from '@nestjs/common'
 import { execSync } from 'node:child_process'
-import { decode } from 'iconv-lite'
-import { ApiResult } from 'src/common/utils/ApiResult'
-import FileUitls from 'src/common/utils/FileUtils'
+import { ApiResult } from '@/common/utils/ApiResult.js'
+import FileUitls from '@/common/utils/FileUtils.js'
+// import { ApiResult } from '../../common/utils/ApiResult.js'
+// import FileUitls from '../../common/utils/FileUtils.js'
 import { createReadStream } from 'node:fs'
 import { extname } from 'node:path'
 import mime from 'mime'
+import iconv from 'iconv-lite'
+const { decode } = iconv
 
 const winChaset = 'cp936'
 
@@ -17,15 +21,15 @@ export class ExplorerService {
       .trim()
       .split('\n')
       .slice(1)
-      .map((item) => {
+      .map(item => {
         const res = decode(
           execSync(`wmic logicaldisk where "deviceid='${item.trim()}'" get /format:value`),
-          winChaset,
+          winChaset
         )
         const entries = res
           .trim()
           .split('\n')
-          .map((item) => {
+          .map(item => {
             const entrie = item.trim().split('=') as [PropertyKey, string]
             return entrie
           })
@@ -45,7 +49,7 @@ export class ExplorerService {
 
     const dir = {
       name: path,
-      children: files.filter((file) => file.type),
+      children: files.filter(file => file.type),
     }
 
     return ApiResult.ok(dir)

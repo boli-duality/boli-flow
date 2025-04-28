@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "declaration": false,
+    "sourceMap": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
-    "sourceMap": true,
+    "target": "ESNext",
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
@@ -16,6 +16,10 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      // 路径别名映射
+      "@/*": ["src/*"]
+    }
   }
 }

@@ -5,7 +5,7 @@
  */
 export async function doAwait<T, U = Error>(
   promise: Promise<T>,
-  errorExt?: object,
+  errorExt?: object
 ): Promise<[U, undefined] | [null, T]> {
   return promise
     .then<[null, T]>((data: T) => [null, data])
@@ -20,4 +20,4 @@ export async function doAwait<T, U = Error>(
 }
 
 /** 进行延时，以达到可以简写代码的目的 比如: await sleep(20)将会阻塞20ms */
-export const sleep = (gap = 60) => new Promise<void>((r) => setTimeout(() => r(), gap))
+export const sleep = (gap = 60) => new Promise<void>(r => setTimeout(() => r(), gap))

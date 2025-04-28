@@ -36,12 +36,14 @@ function openApp(mode = 'development') {
   app = execa({ ...baseExecaOptions, env: { mode } })`electron build/main.js`
   app.on('close', async () => {
     app = undefined
-    await inquirer.prompt({
-      type: 'input',
-      name: 'restart',
-      message: '按回车键打开窗口...',
-    })
-    openApp(mode)
+    inquirer
+      .prompt({
+        type: 'input',
+        name: 'restart',
+        message: '按回车键打开窗口...',
+      })
+      .then(() => openApp(mode))
+      .catch(() => {})
   })
 }
 
@@ -77,12 +79,6 @@ cli
   })
 
 cli.command('build').action(async () => {
-  // execa('pnpm build', { cwd: 'packages/renderer', stdiout: 'inherit', stderr: 'inherit' }).then(
-  //   () => {}
-  // )
-  // execa('pnpm build', { cwd: 'packages/server', stdiout: 'inherit', stderr: 'inherit' }).then(
-  //   () => {}
-  // )
   if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
   await build({
     entryPoints: ['src/**/*'],
@@ -96,18 +92,11 @@ cli.command('build').action(async () => {
         overwrite: true,
       })
     ),
-    execa('pnpm build', { cwd: 'packages/server', ...baseExecaOptions })
-      .then(() =>
-        copy(resolve(process.cwd(), 'packages/server/dist'), `${outdir}/server`, {
-          overwrite: true,
-        })
-      )
-      .then(() =>
-        copyFile(
-          resolve(process.cwd(), 'packages/server/package.json'),
-          `${outdir}/server/package.json`
-        )
-      ),
+    execa('pnpm build', { cwd: 'packages/server', ...baseExecaOptions }).then(() =>
+      copy(resolve(process.cwd(), 'packages/server/dist'), `${outdir}/server`, {
+        overwrite: true,
+      })
+    ),
     copyFile(resolve(process.cwd(), 'package.json'), `${outdir}/package.json`),
   ])
 

@@ -1,5 +1,5 @@
 import { join } from 'node:path'
-import { doAwait } from '../functions/core'
+import { doAwait } from '../functions/core.js'
 import slash from 'slash'
 import { readdir, readFile, stat } from 'node:fs/promises'
 
@@ -13,7 +13,7 @@ export default class FileUitls {
   static async readdir(path: string): Promise<string[]>
   static async readdir(
     path: string,
-    options: { withFileInfo: true },
+    options: { withFileInfo: true }
   ): Promise<
     {
       name: string
@@ -29,7 +29,7 @@ export default class FileUitls {
   >
   static async readdir(
     path: string,
-    { withFileInfo }: { withFileInfo?: boolean } = {},
+    { withFileInfo }: { withFileInfo?: boolean } = {}
   ): Promise<
     | string[]
     | (
@@ -51,7 +51,7 @@ export default class FileUitls {
     if (!withFileInfo) return files
 
     const filesInfo = await Promise.all(
-      files.map(async (file) => {
+      files.map(async file => {
         const filePath = slash(join(path, file))
         const [err, stats] = await doAwait(stat(filePath))
         if (err) {
@@ -78,7 +78,7 @@ export default class FileUitls {
           modified: Math.floor(stats.mtimeMs),
           accessed: Math.floor(stats.atimeMs),
         }
-      }),
+      })
     )
 
     return filesInfo

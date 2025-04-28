@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common'
-import { ExplorerService } from './explorer.service'
+import { ExplorerService } from './explorer.service.js'
 
 @Controller('explorer')
 export class ExplorerController {

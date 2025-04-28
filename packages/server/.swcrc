@@ -1,0 +1,37 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "sourceMaps": false,
+  "module": {
+    "type": "es6",
+    "strictMode": true,
+    "noInterop": false
+  },
+  "minify": true,
+  "exclude": [".*\\.spec\\.ts$"],
+  "jsc": {
+    "externalHelpers": false,
+    "target": "esnext",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true,
+      "react": {
+        "throwIfNamespace": false,
+        "useBuiltins": false,
+        "pragma": "React.createElement",
+        "pragmaFrag": "React.Fragment",
+        "importSource": "react"
+      }
+    },
+    "keepClassNames": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "baseUrl": "./"
+  }
+}
