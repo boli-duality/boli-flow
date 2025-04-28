@@ -1,5 +1,4 @@
 {
-  "$schema": "https://swc.rs/schema.json",
   "sourceMaps": false,
   "module": {
     "type": "es6",

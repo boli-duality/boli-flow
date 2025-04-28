@@ -1,24 +1,21 @@
 // Modules to control application life and create native browser window
 import { app, BrowserWindow } from 'electron'
-import { resolve } from 'path'
+import { join } from 'node:path'
 // import { join } from 'node:path'
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 
 const PROD = app.isPackaged || process.env.mode == 'production'
 
-// 启动后端服务器
-if (PROD) import('./server/main.js')
-
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
-    icon: resolve(import.meta.dirname, 'public/favicon.ico'),
-    // webPreferences: {
-    //   preload: join(__dirname, 'preload.js')
-    // }
+    icon: join(import.meta.dirname, 'public/favicon.ico'),
+    webPreferences: {
+      preload: join(import.meta.dirname, 'preload.js'),
+    },
   })
 
   // and load the index.html of the app.
@@ -52,3 +49,6 @@ app.on('window-all-closed', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+// 启动后端服务器
+const SERVER_MAIN = './server/main.js'
+if (PROD) import(SERVER_MAIN)

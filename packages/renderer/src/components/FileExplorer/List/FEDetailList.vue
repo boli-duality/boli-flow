@@ -1,6 +1,4 @@
 <script setup lang="tsx">
-import { apiExplorerFile, urlExplorerStream } from '@/apis/explorer'
-import type { ExplorerDir, ExplorerFile } from '@/apis/explorer.type'
 import { useTable } from '@/composables/useTable'
 import { convertFileSize } from '@/functions/core'
 import dayjs from 'dayjs'
