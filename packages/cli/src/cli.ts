@@ -3,7 +3,7 @@ import { existsSync, rmSync } from 'node:fs'
 import { type ChildProcess } from 'node:child_process'
 
 import { cac } from 'cac'
-import { build } from 'esbuild'
+import { build, context } from 'esbuild'
 import { execa } from 'execa'
 import { loadConfig } from 'c12'
 import treeKill from 'tree-kill'
@@ -51,19 +51,6 @@ cli
   .command('[root]')
   .alias('dev')
   .action(async () => {
-    if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
-    await build({
-      entryPoints: ['src/**/*'],
-      outdir,
-      packages: 'bundle',
-      loader,
-    })
-    // mkdirSync(`${outdir}/server`)
-    // await copyFile(
-    //   resolve(process.cwd(), 'packages/server/package.json'),
-    //   `${outdir}/server/package.json`
-    // )
-
     const execaArr = config.electron?.dev?.execa
     if (!execaArr) return
     execaArr.forEach(({ command, options, on = {} }: any) => {
@@ -76,6 +63,16 @@ cli
         on.stderr?.({ openApp, data: data.toString() })
       })
     })
+
+    if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
+    const buildCtx = await context({
+      entryPoints: ['src/**/*'],
+      outdir,
+      packages: 'bundle',
+      loader,
+    })
+    await buildCtx.watch()
+    console.log('Watching for src changes...')
   })
 
 cli.command('build').action(async () => {

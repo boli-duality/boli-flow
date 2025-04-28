@@ -52,3 +52,4 @@ app.on('window-all-closed', function () {
 // 启动后端服务器
 const SERVER_MAIN = './server/main.js'
 if (PROD) import(SERVER_MAIN)
+console.log('PROD', PROD)
