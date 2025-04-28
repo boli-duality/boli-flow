@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { apiExplorerFile, apiExplorerStream } from '@/apis/explorer'
+import { apiExplorerFile, urlExplorerStream } from '@/apis/explorer'
 import type { ExplorerDir, ExplorerFile } from '@/apis/explorer.type'
 import { useTable } from '@/composables/useTable'
 import { convertFileSize } from '@/functions/core'
@@ -64,7 +64,6 @@ const model = useTable({
 })
 
 const fileApi = useApi(apiExplorerFile, { immediate: false })
-const streamApi = useApi(apiExplorerStream, { immediate: false })
 
 const fileIcon = {
   directory: '📁',
@@ -92,18 +91,10 @@ const textFile = [
 ]
 const imgFile = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'svg']
 
-const imgCache: Record<string, string> = {}
-onUnmounted(() => Object.values(imgCache).forEach(URL.revokeObjectURL))
-
 async function openFile(file: string, path: string) {
   const ext = extname(file).slice(1)
-  if (imgFile.includes(ext)) {
-    if (imgCache[path]) return imgPreviewState.open(imgCache[path])
-    const [err, blob] = await streamApi.request(path)
-    if (err) return
-    imgCache[path] = URL.createObjectURL(blob)
-    imgPreviewState.open(imgCache[path])
-  } else if (textFile.includes(ext)) {
+  if (imgFile.includes(ext)) imgPreviewState.open(urlExplorerStream(path))
+  else if (textFile.includes(ext)) {
     const [err, res] = await fileApi.request(path)
     if (err) return
     codeEditorState.show = true

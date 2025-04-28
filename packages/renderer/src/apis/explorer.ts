@@ -24,3 +24,6 @@ export const apiExplorerStream: Api<string, Blob> = (params: string, config) =>
     responseType: 'blob',
     ...config,
   })
+
+export const urlExplorerStream = (params: string) =>
+  `${import.meta.env.VITE_BASE_URL}/explorer/stream/${encodeURIComponent(params)}`
