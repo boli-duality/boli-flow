@@ -8,6 +8,22 @@ import {
 import { IPty, spawn } from 'node-pty'
 import { Server, Socket } from 'socket.io'
 import { homedir } from 'node:os'
+import which from 'which'
+import { basename } from 'node:path'
+
+function getShell() {
+  const presets = ['pwsh', 'powershell', 'cmd']
+  let shell = ''
+  for (shell of presets) {
+    try {
+      shell = which.sync(shell)
+      if (shell) break
+    } catch {
+      continue
+    }
+  }
+  return basename(shell)
+}
 
 @WebSocketGateway({
   cors: {
@@ -19,10 +35,16 @@ export class TtyGateway {
   @WebSocketServer()
   server: Server
   terms = new Map<string, IPty>()
+  shell: string
+
+  constructor() {
+    this.shell = getShell()
+  }
 
   handleConnection(client: Socket) {
     if (this.terms.has(client.id)) return
-    const term = spawn('pwsh.exe', [], {
+    if (!this.shell) return
+    const term = spawn(this.shell, [], {
       name: 'xterm-color',
       cwd: homedir(),
       env: process.env,

@@ -424,6 +424,9 @@ importers:
       socket.io:
         specifier: 'catalog:'
         version: 4.8.1
+      which:
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -461,6 +464,9 @@ importers:
       '@types/supertest':
         specifier: ^6.0.2
         version: 6.0.3
+      '@types/which':
+        specifier: ^3.0.4
+        version: 3.0.4
       eslint:
         specifier: ^9.18.0
         version: 9.25.0(jiti@2.4.2)
@@ -1618,12 +1624,10 @@ packages:
       }
     engines: { node: '>=12' }
 
-  '@electron/node-gyp@git+https://git@github.com:electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2':
+  '@electron/node-gyp@https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2':
     resolution:
       {
-        commit: 06b29aafb7708acef8b3669835c8a7857ebc92d2,
-        repo: git@github.com:electron/node-gyp.git,
-        type: git,
+        tarball: https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2,
       }
     version: 10.2.0-electron.1
     engines: { node: '>=12.13.0' }
@@ -3888,6 +3892,12 @@ packages:
     resolution:
       {
         integrity: sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA==,
+      }
+
+  '@types/which@3.0.4':
+    resolution:
+      {
+        integrity: sha512-liyfuo/106JdlgSchJzXEQCVArk0CvevqPote8F8HgWgJ3dRCcTHgJIsLDuee0kxk/mhbInzIZk3QWSZJ8R+2w==,
       }
 
   '@types/yargs-parser@21.0.3':
@@ -13148,7 +13158,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron/node-gyp@git+https://git@github.com:electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2':
+  '@electron/node-gyp@https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2':
     dependencies:
       env-paths: 2.2.1
       exponential-backoff: 3.1.2
@@ -13185,7 +13195,7 @@ snapshots:
 
   '@electron/rebuild@3.7.0':
     dependencies:
-      '@electron/node-gyp': git+https://git@github.com:electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2
+      '@electron/node-gyp': https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2
       '@malept/cross-spawn-promise': 2.0.0
       chalk: 4.1.2
       debug: 4.4.0
@@ -14592,6 +14602,8 @@ snapshots:
   '@types/web-bluetooth@0.0.16': {}
 
   '@types/web-bluetooth@0.0.21': {}
+
+  '@types/which@3.0.4': {}
 
   '@types/yargs-parser@21.0.3': {}
 

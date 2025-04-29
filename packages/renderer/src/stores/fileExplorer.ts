@@ -5,8 +5,7 @@ import { resolve } from 'pathe'
 class HistoryManager extends IndexManager<string> {
   add(path: string) {
     this.array.splice(this.index + 1, Infinity)
-    this.array.push(path)
-    this.index = this.length - 1
+    this.index = this.array.push(path) - 1
   }
 }
 
