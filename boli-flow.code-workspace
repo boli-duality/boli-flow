@@ -1,0 +1,28 @@
+{
+  "folders": [
+    {
+      "name": "boli-flow",
+      "path": ".",
+    },
+    {
+      "name": "renderer",
+      "path": "packages/renderer",
+    },
+    {
+      "name": "server",
+      "path": "packages/server",
+    },
+    {
+      "name": "src",
+      "path": "src",
+    },
+    {
+      "name": "cli",
+      "path": "packages/cli",
+    },
+  ],
+  "settings": {
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.localesPaths": ["packages/renderer/locales"],
+  },
+}

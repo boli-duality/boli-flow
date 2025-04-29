@@ -5,7 +5,7 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "start": "flow",
+    "dev": "flow",
     "build": "flow build",
     "electron:start": "electron build/main.js",
     "electron:build": "electron-builder -c electron-builder.config.ts",
