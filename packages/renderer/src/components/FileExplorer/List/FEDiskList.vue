@@ -10,7 +10,7 @@ const { data = [] } = defineProps<{
 </script>
 
 <template>
-  <ul class="flex flex-1 flex-wrap items-start gap-5 b b-l-#EBEEF5 p-20">
+  <ul class="flex flex-1 flex-wrap items-start gap-5 p-20">
     <li
       v-for="(item, index) in data"
       :key="index"

@@ -19,6 +19,7 @@
     "cac": "^6.7.14",
     "esbuild": "^0.25.3",
     "execa": "^9.5.2",
+    "fast-glob": "^3.3.3",
     "fs-extra": "catalog:",
     "inquirer": "^12.5.2",
     "tree-kill": "^1.2.2"

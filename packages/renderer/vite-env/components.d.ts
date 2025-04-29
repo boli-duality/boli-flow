@@ -20,6 +20,7 @@ declare module 'vue' {
     FENavBar: typeof import('./../src/components/FileExplorer/FENavBar.vue')['default']
     IMaterialSymbolsCloseRounded: typeof import('~icons/material-symbols/close-rounded')['default']
     IMaterialSymbolsDesktopWindowsOutlineRounded: typeof import('~icons/material-symbols/desktop-windows-outline-rounded')['default']
+    IMaterialSymbolsTerminal: typeof import('~icons/material-symbols/terminal')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

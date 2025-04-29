@@ -10,11 +10,11 @@ const PROD = app.isPackaged || process.env.mode == 'production'
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 600,
+    width: 1200,
+    height: 800,
     icon: join(import.meta.dirname, 'public/favicon.ico'),
     webPreferences: {
-      preload: join(import.meta.dirname, 'preload.js'),
+      preload: join(import.meta.dirname, 'preload/index.js'),
     },
   })
 

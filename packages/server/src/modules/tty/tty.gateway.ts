@@ -22,7 +22,7 @@ export class TtyGateway {
 
   handleConnection(client: Socket) {
     if (this.terms.has(client.id)) return
-    const term = spawn('powershell.exe', [], {
+    const term = spawn('pwsh.exe', [], {
       name: 'xterm-color',
       cwd: homedir(),
       env: process.env,

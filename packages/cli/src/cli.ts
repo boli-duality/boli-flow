@@ -9,6 +9,7 @@ import { loadConfig } from 'c12'
 import treeKill from 'tree-kill'
 import inquirer from 'inquirer'
 import { copy, copyFile } from 'fs-extra'
+import { sync } from 'fast-glob'
 
 const { config } = await loadConfig({ name: 'flow' })
 const outdir = resolve(process.cwd(), 'build')
@@ -65,23 +66,39 @@ cli
     })
 
     if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
-    const buildCtx = await context({
-      entryPoints: ['src/**/*'],
+    context({
+      entryPoints: sync(['src/**/*', '!src/preload/**/*']),
       outdir,
       packages: 'bundle',
       loader,
-    })
-    await buildCtx.watch()
-    console.log('Watching for src changes...')
+    }).then(ctx => ctx.watch())
+    context({
+      entryPoints: ['src/preload/**/*'],
+      outdir: `${outdir}/preload`,
+      packages: 'bundle',
+      loader,
+      platform: 'node',
+      format: 'cjs',
+    }).then(ctx => ctx.watch())
   })
 
 cli.command('build').action(async () => {
   if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
+  build({
+    entryPoints: ['src/preload/**/*'],
+    outdir: `${outdir}/preload`,
+    packages: 'bundle',
+    loader,
+    platform: 'node',
+    format: 'cjs',
+    minify: true,
+  })
   await build({
-    entryPoints: ['src/**/*'],
+    entryPoints: sync(['src/**/*', '!src/preload/**/*']),
     outdir,
     packages: 'bundle',
     loader,
+    minify: true,
   })
   await Promise.all([
     execa('pnpm build', { cwd: 'packages/renderer', ...baseExecaOptions }).then(() =>

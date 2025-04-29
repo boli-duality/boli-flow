@@ -24,6 +24,21 @@ catalogs:
     '@nestjs/websockets':
       specifier: ^11.0.11
       version: 11.0.20
+    '@types/fs-extra':
+      specifier: ^11.0.4
+      version: 11.0.4
+    '@vue/eslint-config-prettier':
+      specifier: ^10.2.0
+      version: 10.2.0
+    '@vue/eslint-config-typescript':
+      specifier: ^14.5.0
+      version: 14.5.0
+    electron:
+      specifier: ^35.2.0
+      version: 35.2.0
+    eslint:
+      specifier: ^9.24.0
+      version: 9.25.0
     file-type:
       specifier: ^20.4.1
       version: 20.4.1
@@ -33,24 +48,39 @@ catalogs:
     iconv-lite:
       specifier: ^0.6.3
       version: 0.6.3
+    lint-staged:
+      specifier: ^15.5.1
+      version: 15.5.1
     mime:
       specifier: ^4.0.7
       version: 4.0.7
     node-pty:
       specifier: 1.1.0-beta34
       version: 1.1.0-beta34
+    prettier:
+      specifier: ^3.5.3
+      version: 3.5.3
     reflect-metadata:
       specifier: ^0.2.2
       version: 0.2.2
     rxjs:
       specifier: ^7.8.1
       version: 7.8.2
+    simple-git-hooks:
+      specifier: ^2.12.1
+      version: 2.12.1
     slash:
       specifier: ^5.1.0
       version: 5.1.0
     socket.io:
       specifier: ^4.8.1
       version: 4.8.1
+    typescript:
+      specifier: ^5.8.3
+      version: 5.8.3
+    vue-i18n:
+      specifier: ^11.1.3
+      version: 11.1.3
 
 importers:
   .:
@@ -149,6 +179,9 @@ importers:
       execa:
         specifier: ^9.5.2
         version: 9.5.2
+      fast-glob:
+        specifier: ^3.3.3
+        version: 3.3.3
       fs-extra:
         specifier: 'catalog:'
         version: 11.3.0
@@ -1585,10 +1618,12 @@ packages:
       }
     engines: { node: '>=12' }
 
-  '@electron/node-gyp@https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2':
+  '@electron/node-gyp@git+https://git@github.com:electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2':
     resolution:
       {
-        tarball: https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2,
+        commit: 06b29aafb7708acef8b3669835c8a7857ebc92d2,
+        repo: git@github.com:electron/node-gyp.git,
+        type: git,
       }
     version: 10.2.0-electron.1
     engines: { node: '>=12.13.0' }
@@ -13113,7 +13148,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron/node-gyp@https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2':
+  '@electron/node-gyp@git+https://git@github.com:electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2':
     dependencies:
       env-paths: 2.2.1
       exponential-backoff: 3.1.2
@@ -13150,7 +13185,7 @@ snapshots:
 
   '@electron/rebuild@3.7.0':
     dependencies:
-      '@electron/node-gyp': https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2
+      '@electron/node-gyp': git+https://git@github.com:electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2
       '@malept/cross-spawn-promise': 2.0.0
       chalk: 4.1.2
       debug: 4.4.0

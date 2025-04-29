@@ -25,7 +25,9 @@ onMounted(() => {
   const socket = io('http://localhost:3000', { transports: ['websocket'] })
   client = socket
 
-  const term = new Terminal()
+  const term = new Terminal({
+    fontFamily: 'FiraCode Nerd Font, Fira Code, monospace, Consolas',
+  })
   term.loadAddon(new XtermResizeAddon())
   term.open(boliTerminal.value)
 
@@ -60,9 +62,5 @@ onUnmounted(() => client?.disconnect())
 </script>
 
 <template>
-  <div
-    ref="base-terminal"
-    v-hide="!show"
-    class="base-terminal fixed bottom-0 left-0 right-0 z-20"
-  />
+  <div ref="base-terminal" class="base-terminal h-100%" />
 </template>

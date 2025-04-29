@@ -5,16 +5,16 @@
       "path": ".",
     },
     {
+      "name": "electron",
+      "path": "src",
+    },
+    {
       "name": "renderer",
       "path": "packages/renderer",
     },
     {
       "name": "server",
       "path": "packages/server",
-    },
-    {
-      "name": "src",
-      "path": "src",
     },
     {
       "name": "cli",

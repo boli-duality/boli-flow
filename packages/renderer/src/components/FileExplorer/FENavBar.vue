@@ -48,9 +48,10 @@ onMounted(() => {
       <div
         v-for="item in tools"
         :key="item.icon"
-        class="h-32 w-32 flex-center cursor-pointer rd-4 hover:bg-#ECEBEB"
+        class="h-32 w-32 flex-center cursor-pointer rd-4"
         :class="{
           'c-#A3A1A0': item.disabled,
+          'hover:bg-#ECEBEB': !item.disabled,
         }"
         s-center
         @click="item.handle"
