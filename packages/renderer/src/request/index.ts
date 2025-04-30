@@ -10,9 +10,14 @@ export class BizError<T = any> extends Error {
   }
 }
 
+const port = new URLSearchParams(window.location.search).get('port')
+const baseURL = `${import.meta.env.VITE_BASE_URL}:${port}`
+console.log(window.location.search)
+console.log(baseURL)
+
 // 创建 Axios 实例
 const instance: ApiInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL, // 设置基础 URL
+  baseURL, // 设置基础 URL
   adapter: 'fetch',
 })
 

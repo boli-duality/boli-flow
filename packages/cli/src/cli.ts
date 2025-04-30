@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { existsSync, rmSync } from 'node:fs'
+import { existsSync, readFileSync, rmSync } from 'node:fs'
 import { type ChildProcess } from 'node:child_process'
 
 import { cac } from 'cac'
@@ -10,6 +10,7 @@ import treeKill from 'tree-kill'
 import inquirer from 'inquirer'
 import { copy, copyFile } from 'fs-extra'
 import { sync as globSync } from 'fast-glob'
+import swc from '@swc/core'
 
 const { config } = await loadConfig({ name: 'flow' })
 const outdir = resolve(process.cwd(), 'build')
@@ -69,16 +70,69 @@ cli
     context({
       entryPoints: globSync(['src/**/*', '!src/preload/**/*']),
       outdir,
-      packages: 'bundle',
+      packages: 'external',
       loader,
     }).then(ctx => ctx.watch())
     context({
       entryPoints: ['src/preload/**/*'],
       outdir: `${outdir}/preload`,
-      packages: 'bundle',
+      packages: 'external',
       loader,
       platform: 'node',
       format: 'cjs',
+    }).then(ctx => ctx.watch())
+    context({
+      entryPoints: ['packages/server/src/**/*'],
+      outdir: `${outdir}/server`,
+      packages: 'external',
+      loader,
+      plugins: [
+        {
+          name: 'swc-loader',
+          setup(build) {
+            build.onLoad({ filter: /\.(ts|tsx)$/ }, args => {
+              const code = readFileSync(args.path, 'utf-8')
+              const { code: transformed } = swc.transformSync(code, {
+                sourceMaps: false,
+                module: {
+                  type: 'es6',
+                  strictMode: true,
+                  noInterop: false,
+                },
+                minify: true,
+                exclude: ['.*\\.spec\\.ts$'],
+                jsc: {
+                  externalHelpers: false,
+                  target: 'esnext',
+                  parser: {
+                    syntax: 'typescript',
+                    tsx: true,
+                    decorators: true,
+                    dynamicImport: true,
+                  },
+                  transform: {
+                    legacyDecorator: true,
+                    decoratorMetadata: true,
+                    react: {
+                      throwIfNamespace: false,
+                      useBuiltins: false,
+                      pragma: 'React.createElement',
+                      pragmaFrag: 'React.Fragment',
+                      importSource: 'react',
+                    },
+                  },
+                  keepClassNames: true,
+                  paths: {
+                    '@/*': ['src/*'],
+                  },
+                  baseUrl: './',
+                },
+              })
+              return { contents: transformed }
+            })
+          },
+        },
+      ],
     }).then(ctx => ctx.watch())
   })
 
@@ -100,14 +154,62 @@ cli.command('build').action(async () => {
     loader,
     minify: true,
   })
+  await build({
+    entryPoints: ['packages/server/src/**/*'],
+    outdir: `${outdir}/server`,
+    packages: 'external',
+    loader,
+    plugins: [
+      {
+        name: 'swc-loader',
+        setup(build) {
+          build.onLoad({ filter: /\.(ts|tsx)$/ }, args => {
+            const code = readFileSync(args.path, 'utf-8')
+            const { code: transformed } = swc.transformSync(code, {
+              sourceMaps: false,
+              module: {
+                type: 'es6',
+                strictMode: true,
+                noInterop: false,
+              },
+              minify: true,
+              exclude: ['.*\\.spec\\.ts$'],
+              jsc: {
+                externalHelpers: false,
+                target: 'esnext',
+                parser: {
+                  syntax: 'typescript',
+                  tsx: true,
+                  decorators: true,
+                  dynamicImport: true,
+                },
+                transform: {
+                  legacyDecorator: true,
+                  decoratorMetadata: true,
+                  react: {
+                    throwIfNamespace: false,
+                    useBuiltins: false,
+                    pragma: 'React.createElement',
+                    pragmaFrag: 'React.Fragment',
+                    importSource: 'react',
+                  },
+                },
+                keepClassNames: true,
+                paths: {
+                  '@/*': ['src/*'],
+                },
+                baseUrl: './',
+              },
+            })
+            return { contents: transformed }
+          })
+        },
+      },
+    ],
+  })
   await Promise.all([
     execa('pnpm build', { cwd: 'packages/renderer', ...baseExecaOptions }).then(() =>
       copy(resolve(process.cwd(), 'packages/renderer/dist'), `${outdir}/renderer`, {
-        overwrite: true,
-      })
-    ),
-    execa('pnpm build', { cwd: 'packages/server', ...baseExecaOptions }).then(() =>
-      copy(resolve(process.cwd(), 'packages/server/dist'), `${outdir}/server`, {
         overwrite: true,
       })
     ),

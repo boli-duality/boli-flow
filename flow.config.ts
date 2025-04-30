@@ -11,10 +11,10 @@ export default {
             },
           },
         },
-        {
-          command: 'pnpm start:dev',
-          options: { cwd: 'packages/server' },
-        },
+        // {
+        //   command: 'pnpm start:dev',
+        //   options: { cwd: 'packages/server' },
+        // },
       ],
     },
   },

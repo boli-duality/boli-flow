@@ -1,11 +1,20 @@
 // Modules to control application life and create native browser window
 import { app, BrowserWindow } from 'electron'
 import { join } from 'node:path'
-// import { join } from 'node:path'
+import { getPort } from 'get-port-please'
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 
 const PROD = app.isPackaged || process.env.mode == 'production'
+
+const port = await getPort(5290)
+
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.
+// 启动后端服务器
+const SERVER_MAIN = './server/main.js'
+process.env.PORT = port.toString()
+await import(SERVER_MAIN)
 
 function createWindow() {
   // Create the browser window.
@@ -20,8 +29,8 @@ function createWindow() {
 
   // and load the index.html of the app.
   // mainWindow.loadFile('index.html')
-  if (PROD) mainWindow.loadFile('renderer/index.html')
-  else mainWindow.loadURL('http://localhost:5173')
+  if (PROD) mainWindow.loadFile(`renderer/index.html?port=${port}`)
+  else mainWindow.loadURL(`http://localhost:5173?port=${port}`)
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -46,9 +55,3 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-// 启动后端服务器
-const SERVER_MAIN = './server/main.js'
-if (PROD) import(SERVER_MAIN)
