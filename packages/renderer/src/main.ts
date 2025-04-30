@@ -9,7 +9,10 @@ import App from './App.vue'
 
 import loadPolyfills from './polyfills' // 动态安装polyfills
 
-loadPolyfills().then(() => {
+loadPolyfills().then(async () => {
+  window.BF = {}
+  BF.port = await electron.port()
+
   const app = createApp(App)
 
   // 安装插件

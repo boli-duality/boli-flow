@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'node:path'
 import { getPort } from 'get-port-please'
 
@@ -16,6 +16,8 @@ const SERVER_MAIN = './server/main.js'
 process.env.PORT = port.toString()
 await import(SERVER_MAIN)
 
+ipcMain.handle('port', () => port)
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -29,8 +31,8 @@ function createWindow() {
 
   // and load the index.html of the app.
   // mainWindow.loadFile('index.html')
-  if (PROD) mainWindow.loadFile(`renderer/index.html?port=${port}`)
-  else mainWindow.loadURL(`http://localhost:5173?port=${port}`)
+  if (PROD) mainWindow.loadFile('renderer/index.html')
+  else mainWindow.loadURL('http://localhost:5173')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

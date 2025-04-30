@@ -10,8 +10,7 @@ export class BizError<T = any> extends Error {
   }
 }
 
-const port = new URLSearchParams(window.location.search).get('port')
-const baseURL = `${import.meta.env.VITE_BASE_URL}:${port}`
+const baseURL = `${import.meta.env.VITE_BASE_URL}:${BF.port}`
 console.log(window.location.search)
 console.log(baseURL)
 

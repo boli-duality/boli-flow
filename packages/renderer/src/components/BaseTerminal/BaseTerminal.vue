@@ -22,7 +22,7 @@ const keyMap = new Map([
 onMounted(() => {
   if (!boliTerminal.value) return
 
-  const socket = io('http://localhost:3000', { transports: ['websocket'] })
+  const socket = io(`${import.meta.env.VITE_BASE_URL}:${BF.port}`, { transports: ['websocket'] })
   client = socket
 
   const term = new Terminal({
