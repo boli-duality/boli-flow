@@ -9,7 +9,7 @@ import { loadConfig } from 'c12'
 import treeKill from 'tree-kill'
 import inquirer from 'inquirer'
 import { copy, copyFile } from 'fs-extra'
-import { sync } from 'fast-glob'
+import { sync as globSync } from 'fast-glob'
 
 const { config } = await loadConfig({ name: 'flow' })
 const outdir = resolve(process.cwd(), 'build')
@@ -67,7 +67,7 @@ cli
 
     if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
     context({
-      entryPoints: sync(['src/**/*', '!src/preload/**/*']),
+      entryPoints: globSync(['src/**/*', '!src/preload/**/*']),
       outdir,
       packages: 'bundle',
       loader,
@@ -94,7 +94,7 @@ cli.command('build').action(async () => {
     minify: true,
   })
   await build({
-    entryPoints: sync(['src/**/*', '!src/preload/**/*']),
+    entryPoints: globSync(['src/**/*', '!src/preload/**/*']),
     outdir,
     packages: 'bundle',
     loader,
