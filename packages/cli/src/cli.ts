@@ -80,7 +80,7 @@ cli
       format: 'cjs',
     }).then(ctx => ctx.watch())
     context({
-      entryPoints: ['packages/server/src/**/*'],
+      entryPoints: globSync(['packages/server/src/**/*', '!**/*.spec.ts']),
       outdir: `${outdir}/server`,
       packages: 'external',
       loader,
@@ -134,27 +134,28 @@ cli
 
 cli.command('build').action(async () => {
   if (existsSync(outdir)) rmSync(outdir, { recursive: true, force: true })
-  build({
-    entryPoints: ['src/preload/**/*'],
-    outdir: `${outdir}/preload`,
-    packages: 'bundle',
-    loader,
-    platform: 'node',
-    format: 'cjs',
-    minify: true,
-  })
   await build({
     entryPoints: globSync(['src/**/*', '!src/preload/**/*']),
     outdir,
-    packages: 'bundle',
+    packages: 'external',
     loader,
     minify: true,
   })
-  await build({
-    entryPoints: ['packages/server/src/**/*'],
+  build({
+    entryPoints: ['src/preload/**/*'],
+    outdir: `${outdir}/preload`,
+    packages: 'external',
+    loader,
+    minify: true,
+    platform: 'node',
+    format: 'cjs',
+  })
+  build({
+    entryPoints: globSync(['packages/server/src/**/*', '!**/*.spec.ts']),
     outdir: `${outdir}/server`,
     packages: 'external',
     loader,
+    minify: true,
     plugins: [
       {
         name: 'swc-loader',
@@ -191,10 +192,8 @@ cli.command('build').action(async () => {
                   },
                 },
                 keepClassNames: true,
-                paths: {
-                  '@/*': ['src/*'],
-                },
-                baseUrl: './',
+                paths: { '@server/*': [resolve(process.cwd(), 'packages/server/src/*')] },
+                baseUrl: dirname(args.path),
               },
             })
             return { contents: transformed }

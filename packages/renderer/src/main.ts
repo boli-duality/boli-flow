@@ -4,15 +4,14 @@ import '@xterm/xterm/css/xterm.css'
 import './main.css'
 
 import { createApp, type Plugin } from 'vue'
-
 import App from './App.vue'
 
-import loadPolyfills from './polyfills' // 动态安装polyfills
 import { config } from './states/config'
 
-await loadPolyfills()
+// import loadPolyfills from './polyfills' // 动态安装polyfills
+// await loadPolyfills()
+
 config.value = await BF.getConfig()
-_log(config.value.port)
 
 const app = createApp(App)
 
