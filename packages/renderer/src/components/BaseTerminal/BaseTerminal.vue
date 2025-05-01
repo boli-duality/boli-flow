@@ -2,6 +2,7 @@
 import { Terminal } from '@xterm/xterm'
 import { io, Socket } from 'socket.io-client'
 import XtermResizeAddon from './addons/XtermResizeAddon'
+import { baseURL } from '@/states/config'
 
 const { show = false } = defineProps<{ show?: boolean }>()
 
@@ -22,7 +23,7 @@ const keyMap = new Map([
 onMounted(() => {
   if (!boliTerminal.value) return
 
-  const socket = io(`${import.meta.env.VITE_BASE_URL}:${BF.port}`, { transports: ['websocket'] })
+  const socket = io(baseURL.value, { transports: ['websocket'] })
   client = socket
 
   const term = new Terminal({
