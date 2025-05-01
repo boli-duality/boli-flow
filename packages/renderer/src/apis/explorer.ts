@@ -2,6 +2,7 @@ import { request } from '@/request'
 import type { Api } from './api'
 import type { ExplorerDir } from './explorer.type'
 import { join } from 'pathe'
+import { baseURL } from '@/states/config'
 
 export const apiExplorerDir: Api<string, ExplorerDir> = (params, config) =>
   request({
@@ -26,4 +27,4 @@ export const apiExplorerStream: Api<string, Blob> = (params: string, config) =>
   })
 
 export const urlExplorerStream = (params: string) =>
-  `${import.meta.env.VITE_BASE_URL}/explorer/stream/${encodeURIComponent(params)}`
+  `${baseURL.value}/explorer/stream/${encodeURIComponent(params)}`
