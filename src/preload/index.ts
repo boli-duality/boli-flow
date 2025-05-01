@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
-contextBridge.exposeInMainWorld('electron', {
-  port: () => ipcRenderer.invoke('port'),
+contextBridge.exposeInMainWorld('BF', {
+  getConfig: () => ipcRenderer.invoke('getConfig'),
 })

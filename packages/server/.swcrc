@@ -5,7 +5,7 @@
     "strictMode": true,
     "noInterop": false
   },
-  "minify": true,
+  "minify": false,
   "exclude": [".*\\.spec\\.ts$"],
   "jsc": {
     "externalHelpers": false,
@@ -29,7 +29,7 @@
     },
     "keepClassNames": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@server/*": ["src/*"]
     },
     "baseUrl": "./"
   }

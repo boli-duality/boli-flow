@@ -1,4 +1,4 @@
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { existsSync, readFileSync, rmSync } from 'node:fs'
 import { type ChildProcess } from 'node:child_process'
 
@@ -38,14 +38,12 @@ function openApp(mode = 'development') {
   app = execa({ ...baseExecaOptions, env: { mode } })`electron build/main.js`
   app.on('close', async () => {
     app = undefined
-    inquirer
-      .prompt({
-        type: 'input',
-        name: 'restart',
-        message: '按回车键打开窗口...',
-      })
-      .then(() => openApp(mode))
-      .catch(() => {})
+    await inquirer.prompt({
+      type: 'input',
+      name: 'restart',
+      message: '按回车键打开窗口...',
+    })
+    openApp(mode)
   })
 }
 
@@ -122,10 +120,8 @@ cli
                     },
                   },
                   keepClassNames: true,
-                  paths: {
-                    '@/*': ['src/*'],
-                  },
-                  baseUrl: './',
+                  paths: { '@server/*': [resolve(process.cwd(), 'packages/server/src/*')] },
+                  baseUrl: dirname(args.path),
                 },
               })
               return { contents: transformed }

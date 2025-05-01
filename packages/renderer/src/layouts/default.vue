@@ -17,13 +17,13 @@ const [terminalShow] = useToggle(true)
 
 <template>
   <section class="container h-100vh flex flex-col of-hidden">
-    <section class="flex flex-1">
+    <section class="h-[calc(100%-22px)] flex">
       <aside class="activitybar w-48 shrink-0 b-r" />
       <aside class="sidebar w-260 shrink-0 b-r">
         {{ t('intro.desc') }}
       </aside>
-      <section class="main-panel relative flex flex-1 flex-col">
-        <main class="flex-1">
+      <section class="main-panel relative h-100% flex-1">
+        <main class="h-[calc(100%-306px)]">
           <RouterView />
         </main>
         <footer v-hide="!terminalShow" class="h-306 bg-#000 pl-20">

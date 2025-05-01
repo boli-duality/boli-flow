@@ -1,22 +1,22 @@
 // Modules to control application life and create native browser window
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { join } from 'node:path'
 import { getPort } from 'get-port-please'
+import { setupIpcMain } from './ipcMain.js'
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 
 const PROD = app.isPackaged || process.env.mode == 'production'
 
-const port = await getPort(5290)
-
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+// 配置
+const port = await getPort(5290)
+process.env.PORT = port.toString()
+setupIpcMain({ port })
 // 启动后端服务器
 const SERVER_MAIN = './server/main.js'
-process.env.PORT = port.toString()
 await import(SERVER_MAIN)
-
-ipcMain.handle('port', () => port)
 
 function createWindow() {
   // Create the browser window.
@@ -29,13 +29,31 @@ function createWindow() {
     },
   })
 
+  // const menu = Menu.buildFromTemplate([
+  //   {
+  //     label: app.name,
+  //     submenu: [
+  //       {
+  //         click: () => mainWindow.webContents.send('update-counter', 1),
+  //         label: 'Increment',
+  //       },
+  //       {
+  //         click: () => mainWindow.webContents.send('update-counter', -1),
+  //         label: 'Decrement',
+  //       },
+  //     ],
+  //   },
+  // ])
+
+  // Menu.setApplicationMenu(menu)
+
   // and load the index.html of the app.
   // mainWindow.loadFile('index.html')
   if (PROD) mainWindow.loadFile('renderer/index.html')
   else mainWindow.loadURL('http://localhost:5173')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

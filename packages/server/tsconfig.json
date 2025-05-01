@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       // 路径别名映射
-      "@/*": ["src/*"]
+      "@server/*": ["src/*"]
     }
   }
 }

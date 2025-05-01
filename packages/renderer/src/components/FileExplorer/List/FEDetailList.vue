@@ -18,6 +18,7 @@ const model = useTable({
   data: computed(() => data),
   table: {
     rowKey: 'name',
+    style: { height: 'calc(100% - 48px)' },
     border: true,
     size: 'small',
     async onRowDblclick(row) {

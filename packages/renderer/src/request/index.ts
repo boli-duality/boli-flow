@@ -1,5 +1,6 @@
 import axios from 'axios'
 import type { ApiInstance, ApiResponse } from './index.type'
+import { baseURL } from '@/states/config'
 
 export class BizError<T = any> extends Error {
   data
@@ -10,13 +11,9 @@ export class BizError<T = any> extends Error {
   }
 }
 
-const baseURL = `${import.meta.env.VITE_BASE_URL}:${BF.port}`
-console.log(window.location.search)
-console.log(baseURL)
-
 // 创建 Axios 实例
 const instance: ApiInstance = axios.create({
-  baseURL, // 设置基础 URL
+  baseURL: baseURL.value, // 设置基础 URL
   adapter: 'fetch',
 })
 

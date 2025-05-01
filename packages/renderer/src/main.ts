@@ -8,17 +8,17 @@ import { createApp, type Plugin } from 'vue'
 import App from './App.vue'
 
 import loadPolyfills from './polyfills' // 动态安装polyfills
+import { config } from './states/config'
 
-loadPolyfills().then(async () => {
-  window.BF = {}
-  BF.port = await electron.port()
+await loadPolyfills()
+config.value = await BF.getConfig()
+_log(config.value.port)
 
-  const app = createApp(App)
+const app = createApp(App)
 
-  // 安装插件
-  Object.values(import.meta.glob<{ default: Plugin }>('./plugins/*.ts', { eager: true })).forEach(
-    plugin => app.use(plugin.default)
-  )
+// 安装插件
+Object.values(import.meta.glob<{ default: Plugin }>('./plugins/*.ts', { eager: true })).forEach(
+  plugin => app.use(plugin.default)
+)
 
-  app.mount('#app')
-})
+app.mount('#app')
