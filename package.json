@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "flow",
     "build": "flow build",
-    "electron:start": "electron build/main.js",
     "electron:build": "electron-builder -c electron-builder.config.ts",
+    "all:build": "flow build && electron-builder -c electron-builder.config.ts",
+    "electron:start": "electron build/main.js",
     "lint": "eslint src --fix",
     "format": "prettier --write src/",
     "up": "npx taze major -I",

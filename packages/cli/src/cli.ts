@@ -38,12 +38,16 @@ function openApp(mode = 'development') {
   app = execa({ ...baseExecaOptions, env: { mode } })`electron build/main.js`
   app.on('close', async () => {
     app = undefined
-    await inquirer.prompt({
-      type: 'input',
-      name: 'restart',
-      message: '按回车键打开窗口...',
-    })
-    openApp(mode)
+    const { restart } = await inquirer
+      .prompt({
+        type: 'list',
+        name: 'restart',
+        message: '按回车键打开窗口...',
+        choices: ['重新打开窗口', '退出'],
+      })
+      .catch(() => process.exit())
+    if (restart == '重新打开窗口') openApp(mode)
+    else treeKill(process.pid)
   })
 }
 
