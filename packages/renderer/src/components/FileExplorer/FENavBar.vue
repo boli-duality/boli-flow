@@ -53,7 +53,6 @@ onMounted(() => {
           'c-#A3A1A0': item.disabled,
           'hover:bg-#ECEBEB': !item.disabled,
         }"
-        s-center
         @click="item.handle"
       >
         <div :class="item.icon" class="size-18" />
