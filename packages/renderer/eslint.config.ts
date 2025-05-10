@@ -36,14 +36,7 @@ export default defineConfigWithVueTs(
   {
     rules: {
       'vue/prefer-template': 'error',
-      'vue/html-self-closing': [
-        'error',
-        {
-          html: {
-            void: 'always',
-          },
-        },
-      ],
+      'vue/html-self-closing': ['error', { html: { void: 'always' } }],
       'vue/multiline-html-element-content-newline': 'error',
     },
   },
