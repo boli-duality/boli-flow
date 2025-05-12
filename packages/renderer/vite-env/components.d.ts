@@ -10,6 +10,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     BaseTable: typeof import('./../src/components/BaseTable.vue')['default']
     BaseTerminal: typeof import('./../src/components/BaseTerminal/BaseTerminal.vue')['default']
+    BfAuxiliarybar: typeof import('./../src/components/bf-auxiliarybar.vue')['default']
+    BfFooter: typeof import('./../src/components/bf-footer.vue')['default']
+    BfSidebar: typeof import('./../src/components/bf-sidebar.vue')['default']
+    BfStatusbar: typeof import('./../src/components/bf-statusbar.vue')['default']
     CodeEditor: typeof import('./../src/components/CodeEditor.vue')['default']
     DraggableWindow: typeof import('./../src/components/DraggableWindow.vue')['default']
     ElImageViewer: typeof import('element-plus/es')['ElImageViewer']
@@ -18,6 +22,7 @@ declare module 'vue' {
     FEDiskList: typeof import('./../src/components/FileExplorer/List/FEDiskList.vue')['default']
     FEList: typeof import('./../src/components/FileExplorer/FEList.vue')['default']
     FENavBar: typeof import('./../src/components/FileExplorer/FENavBar.vue')['default']
+    Footer: typeof import('./../src/components/Footer.vue')['default']
     IMaterialSymbolsCloseRounded: typeof import('~icons/material-symbols/close-rounded')['default']
     IMaterialSymbolsDesktopWindowsOutlineRounded: typeof import('~icons/material-symbols/desktop-windows-outline-rounded')['default']
     IMaterialSymbolsTerminal: typeof import('~icons/material-symbols/terminal')['default']

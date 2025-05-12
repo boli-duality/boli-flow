@@ -1,33 +1,27 @@
-import type { App } from 'vue'
+import type { App, Directive } from 'vue'
 
-export default function install(app: App) {
-  app.directive('hide', {
-    mounted(el, binding) {
-      updateVisibility(el, binding.value)
-    },
-    updated(el, binding) {
-      updateVisibility(el, binding.value)
-    },
-  })
+const visibleSymbol = Symbol('v-visible:original-style')
 
-  let style: any
-  // 更新元素可见性的函数
-  function updateVisibility(el: any, isHidden: boolean) {
-    if (isHidden) {
-      style = el.style
+const directives: Record<string, Directive> = {
+  visible(el, { value: isVisible }) {
+    if (isVisible) Object.assign(el.style, el[visibleSymbol])
+    else {
+      el[visibleSymbol] = {
+        position: el.style.position,
+        top: el.style.top,
+        transform: el.style.transform,
+      }
       Object.assign(el.style, {
         position: 'fixed',
-        transform: `translateX(calc(-${window.innerWidth}px - 100%))`,
+        top: '-100%',
+        transform: 'translateY(-100%)',
       })
-    } else {
-      Object.assign(
-        el.style,
-        {
-          position: '',
-          transform: '',
-        },
-        style
-      )
     }
-  }
+  },
+}
+
+export default function install(app: App) {
+  Object.entries(directives).forEach(([name, directive]) => {
+    app.directive(name, directive)
+  })
 }

@@ -180,3 +180,7 @@ export function convertFileSize(
   const result = size / Math.pow(1024, toIndex - fromIndex)
   return `${result.toFixed(decimals)} ${units[toIndex]}`
 }
+
+export function addCssUnit(v: string | number, unit: string = 'px') {
+  return isNaN(+v) ? v : +v + unit
+}
